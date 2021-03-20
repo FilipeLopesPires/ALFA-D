@@ -1,0 +1,124 @@
+
+-* Program *-
+
+-- comments
+
+-- 	one line comment
+-*			
+	several 
+	lines	
+	comment 
+*-	
+
+
+-- function definition
+
+def void printLine(String info) {
+	print(info);
+	print("\n");
+	return;
+}
+
+def int sum(int a, int b) {
+	int result = a + b;
+	return result;
+}
+
+def Table tabela(){
+	return load("NomeNmec.csv");
+}
+
+def Column coluna(){
+	return createCol(String nome);
+}		
+
+-- variable creation
+
+String name = "Filipe";
+int nmec = 85122;
+bool alive = true;
+
+-- variable usage
+
+nmec = nmec + 50;
+real age = 2^4 + 3;
+
+-- conditional definition
+
+if(nmec == 85122) {
+	print(name + ", " + nmec);
+} else if (nmec == 85048) {
+	print("Joao, " + nmec);
+} else {
+	print("Nmec not recognised");
+}
+
+-- loop definition
+
+int i = 0;
+while(i < 10) {
+	print(i);
+	i = i + 1;
+}
+
+for(int j=10; j>0; j=-1+j) {
+	print(j);
+}
+
+-- table creation
+
+Table students1 = load("NomeNmec.csv");							-- creates table from file
+Table students2 = create(String name, int nmec);			--    =    empty table
+Column col1 = createCol(int Age);								--    =    table with only 1 column
+Table students3 = students1;									-- copies table
+Table a = tabela() remove where(@*);
+
+
+int ind=sum(4, 6);
+print("Amanha");
+
+-- table update
+
+students1.name -> Name;										-- rename header element
+Column coluna = students1[0] -> Name;
+students1 increase(int Age);									-- add col
+students1 increase(col1);										--  =   =
+students1.age = coluna();									-- column follows return values of function
+students1 decrease(Age);										-- remove col
+students1 clear();
+
+
+{int ax=0;}
+
+-- table insertion/removal
+
+load("NomeNmec.csv") add(<"Filipe",85122>);
+
+Line line1 = <"Duarte",85133>;									-- creates tuple
+students2 add(<"Filipe",85122>);					-- adds several tuples
+students2 add(line1);											--   =  tuple (saved in var)
+students2 add(<"Lucas",85036>,2);								--   =    =   in specific index
+students2 add(line1,3);										--   =    =   (saved in var) in specific index
+[0]students1[0] = "banana";   --update element
+students2 remove where(@2);										-- removes tuple from specific index
+students2 remove where(name == "Lucas"); 						--    =      =   where condition is verified
+
+-- table get content
+
+String myName = [0]students1[0];								-- get element
+Line iAm = [0]students1;										--  =  line
+Column allNames = students1[0];									--  =  column
+Column allNames2 = students1.name;								--  =    =
+Table subtable = students1[0--1];								--  =  subtable
+Table subtable1 = [0--1]students1[0--1];							--  =  smaller subtable
+
+-- table manipulation
+
+Table superTable = students1 union students2;					-- vertically unites tables
+Table noTableAtAll = students1 difference students2;			-- removes tuples from stu1 similar to stu2
+Table joinedTable = students1 join students2;					-- horizontally unites tables
+Table joinedTable2 = students1 join students2 on name==name;	--      =         =     =  where cond verified
+
+-- table save
+
+students2 save("NomeNmec2.csv");

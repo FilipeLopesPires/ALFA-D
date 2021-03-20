@@ -1,0 +1,55 @@
+--comentário de uma linha
+
+-*
+Comentário
+multi
+linha
+*-
+
+String nice = "nice af if you ask me!";
+print(nice + "\n");
+
+int num1 = 123;
+print(num1 + "\n");
+
+real num2 = 2.3;
+print(num2 + "\n");
+
+bool cond = true;
+print(cond);
+
+real mul = num1 * num2;
+print(mul + "\n");
+
+real div = num1 / num2;
+print(div + "\n");
+
+real sum = num1 + num2;
+print(sum + "\n");
+
+int a = 0;
+
+for(int i = 0; i < 10; i++){
+  if(i == 0){
+    a = num1;
+    print(a + "\n");
+  };
+  if(cond){
+    a ++;
+    print(a + "\n");
+  }
+}
+
+int count = 0;
+while(cond){
+  print(count + nice + "\n");
+  count = count + 1;
+  if(count > 3){
+    cond = false;
+  }
+}
+
+do{
+  print(count + "bora perguntar ao tio google\n");
+  count++;
+}while(count < 5)

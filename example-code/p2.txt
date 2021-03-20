@@ -1,0 +1,29 @@
+def void printLine(String info) {
+	print(info + "\n");
+	return;
+}
+
+def real sqrt(real a) {
+	real result = a ^ (1/2);
+	return result;
+}
+
+def bool isGoodName(String name){
+	if(name == "Lucas") {
+		return true;
+	}
+	return false;
+}
+
+def void work(real a, String name){
+	if(isGoodName(name)){
+		printLine(name);
+		printLine(sqrt(a)+"");
+	}
+	return;
+}
+
+String name = "Lucas";
+real a = 3.0;
+
+work(a, name);

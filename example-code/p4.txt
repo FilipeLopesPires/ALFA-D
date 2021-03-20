@@ -1,0 +1,31 @@
+Table familia1  = create(String Nome, String Apelido, int Idade, bool Male);
+familia1 increase(String Parentesco);
+
+familia1 add(<"Duarte","Castanho",20,true,"Pai">);
+familia1 add(<"André","Pedrosa",20,false,"Mae">);
+familia1 add(<"Lucas ","Silva",6,false,"Filha">);
+familia1 add(<"Joao","Alegria",4,true,"Filho">);
+familia1 add(<"Filipe","Pires",11,true,"Filho">);
+
+print(familia1);
+
+Table familia2  = create(String Nome2, String Apelido2, int Idade2, bool Male2, String Parentesco2);
+familia2 add(<"Duarte","Castanho",20,true,"Pai">);
+familia2 add(<"Maria","Albertina",20,false,"Mae">);
+familia2 add(<"Alberto","Cortez",7,true,"Filho">);
+familia2 add(<"Mário","Ravia",12,true,"Tio">);
+familia2 add(<"Van","Dogh",32,true,"Cão">);
+
+
+print("\nUnion the tables:\n");
+Table unionTables = familia1 union familia2;
+print(unionTables);
+
+print("\nIntersect the tables:\n");
+print(familia1 intersect familia2);
+
+print("\nDifference the Tables:\n");
+print(familia1 difference familia2);
+
+print("\nJoin the Tables\n");
+print(familia1 join familia2 on Nome == Nome2);

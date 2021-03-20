@@ -1,0 +1,29 @@
+def int ret(){
+	return name(1,1);
+}
+
+def int name(int a, int b){
+	int c=3;
+	if("banana"=="banana" && true){
+		if(true){
+			return 4;
+		}
+	}
+	else if(c==1){
+		return 1;
+	}
+	else if(c==2){
+		c=3;
+	}
+	else{
+		print("banana");
+		return 1;
+	}
+	return ret();
+}
+
+
+print (name(1, 2));
+for(int a=0; a<3; a++){
+	print(a);
+}

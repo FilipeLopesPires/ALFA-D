@@ -1,0 +1,423 @@
+group LangToJava;
+
+	booleanValue::= [
+			"true" : "true", 
+			"false" : "false", 
+			default : "null"]
+
+	typeValue::= [
+			"int" : "int", 
+			"real" : "double", 
+			"bool" : "boolean", 
+			"String" : "String", 
+			"Table" : "Table", 
+			"Column" : "Column", 
+			"void" : "void", 
+			"Line" : "Line", 
+			default : "null"]
+
+	operators::= [
+		   "*" : "*", 
+		   "/" : "/", 
+		   "+" : "+", 
+		   "-" : "-",
+		   default : "null"]
+
+	comparators::= [
+		   "==" : "==", 
+		   "!=" : "!=", 
+		   "<" : "<", 
+		   ">" : ">", 
+		   ">=" : ">=", 
+		   "<=" : "<=",
+		   "&&" : "&&",
+		   "||" : "||",
+		   default : "null"]
+
+	CompareOperations::= [
+			"==" : "CompareOperations.EQUAL", 
+			"!=" : "CompareOperations.DIFFERENTE", 
+			"<" : "CompareOperations.LESS", 
+			">" : "CompareOperations.GREATER",
+			">=" : "CompareOperations.GREATE_EQUAL",
+		    "<=" : "CompareOperations.LESS_EQUAL",
+			default : "null"]
+	
+	DataType ::= [
+			"int" : "DataTypes.Int", 
+			"real" : "DataTypes.Re", 
+			"bool" : "DataTypes.Bool", 
+			"String" : "DataTypes.Str", 
+			"Table" : "DataTypes.Table", 
+			"Column" : "DataTypes.Column",
+			"Line" : "DataTypes.Line", 
+			default : "null"]
+
+//---------------Coisas Mais Básicas da Linguagem-------------------
+
+//móduloClass
+class(name, function, stat) ::= <<
+import Logica.*;
+public class <name> {
+	<stats(function)>
+	public static void main(String[] args) {
+		<stats(stat)>
+	}
+}	
+>>
+
+//Criação de funcoes
+createFunction (name, type, listArgs, block )::=<<
+public static <typeValue.(type)> <name>(<listArgs>)<block> 
+>>
+
+//functionCall
+functionCall(f, list)::=<<
+<f>(<list>)
+>>
+
+//listArgs
+listArgs(arg) ::=<<
+<if(arg)><arg; separator=","><endif>
+>>
+
+//Arg
+arg(type, name) ::= <<
+<typeValue.(type)> <name>
+>>
+
+//stats 
+stats (stat )::=<<
+<if(stat)><stat; separator=";\n">;<endif>
+>>
+
+//elem
+elem (stat )::=<<
+<if(stat)><stat><endif>
+>>
+
+
+//return 
+return(stat) ::= <<
+return <if(stat)><stat><endif>
+>>
+
+//codeBlock
+codeBlock(stat) ::= <<
+{<if(stat)><stat; separator=";\n">;<endif>}
+>>
+
+//declaracao com assignement de valor
+assignType (lhs, rhs, type )::=<<
+<typeValue.(type)> <lhs><init(rhs, type)>
+>>
+
+init(value, type) ::= "<if(value)>=(<typeValue.(type)>)(<value>)<endif>"
+
+//assign de valor a variavel existente
+assign (lhs, rhs )::="<lhs> = <rhs>"
+
+//replace por um apos
+replaceByOneAfter (number,op)::=<<
+<number><op>
+>>
+
+//replace por um antes
+replaceByOneBefore (number,op)::=<<
+<op><number>
+>>
+
+//replace de valor
+replaceByN (number, stat, op)::=<<
+<number><op><stat>
+>>
+
+//While
+whileLoop (condition, stat )::=<<
+while(<condition>)<stat>
+>>
+
+//doWhile
+doWhileLoop (stat, condition )::=<<
+do<stat>while(<condition>)
+>>
+
+//FOR
+//forLoop
+forLoop (initFor, condition, update, stat )::=<<
+for(<if(initFor)><initFor><endif>; <if(condition)><condition><endif>; <if(update)><update><endif>)<stat>
+>>
+
+//Comparacao de Valores
+compare (object1, object2, name )::=<<
+<object1> <comparators.(name)> <object2>
+>>
+
+//Comparacao de Strings
+compareStrings (string1, string2)::=<<
+<string1>.equals(<string2>)
+>>
+
+//Operacoes lógicas entre objetos
+math (object1, object2, name )::=<<
+<object1> <operators.(name)> <object2>
+>>
+
+//Potenciação de valores
+power(base, exp) ::= <<
+Math.pow(<base>, <exp>)
+>>
+
+//preferência por parêntesis
+parentheses(expr) ::=<<
+(<expr>)
+>>
+
+//Print
+print (elem)::=<<
+System.out.println(<elem>)
+>>
+
+//If
+ifStat(cond, ifStats, elseStats) ::= <<
+if (<cond>)
+	<ifStats>
+<if(elseStats)>
+else
+	<elseStats>
+<endif>
+>>
+
+
+//-------------------More Specific Methods-------------------
+
+
+//--------TABLE---------
+createTable() ::=<<
+new Table()
+>>
+
+createTableFile(file, line)::=<<
+new Table(<file>, <line>)
+>>
+
+createTableHeaders(header, line) ::=<<
+new Table(new Header[] {<header>}, <line>)
+>>
+
+createHeader(dataType, name) ::=<<
+new Header(<DataType.(dataType)>, "<name>")
+>>
+
+renameTable(table, oldname, newName, line) ::= <<	
+<table>.rename(<oldname>, <newName>, <line>)
+>>
+
+increaseTable (table, header, line )::=<<
+<table>.increase(<header>, <line>)
+>>
+
+increaseTableHeaderArray (table, header, line )::=<<
+<table>.increase(new Header[] {<header>}, <line>)
+>>
+
+decreaseTable (table, header, line )::=<<
+<table>.decrease(<header>, <line>)
+>>
+
+decreaseTableHeaderName (table, name, line )::=<<
+<table>.decrease("<name>", <line>)
+>>
+
+clearTable (table )::=<<
+<table>.clear()
+>>
+
+clearTableHeader (table, header, line )::=<<
+<table>.clear(<header>, <line>)
+>>
+
+clearTableInt (table, int , line)::=<<
+<table>.clear(<int>, <line>)
+>>
+
+addTable (table, header, element, line)::=<<
+<table>.add(<header>, <element>, <line>)
+>>
+
+addTablePosition (table, header, element, int, line)::=<<
+<table>.add(<header>, <element>, <int>, <line>)
+>>
+
+addTableLines (table, lineClass, line)::=<<
+<table>.add(<lineClass>, <line>)
+>>
+
+addTableLineIndex (table, lineClass, index, line)::=<<
+<table>.add(<lineClass>, <index>, <line>)
+>>
+
+addTablePositionLine (table, line )::=<<
+<table>.add(<line>)
+>>
+
+replaceTablePosition (table, header, element, index, line)::=<<
+<table>.replace(<header>, <element>, <index>, <line>)
+>>
+
+removeTableElement (table, column, element, line )::=<<
+<table>.remove(<column>, <element>, <line>)
+>>
+
+removeTableColumnIndex (table, column, index , line)::=<<
+<table>.remove(<column>, <index>, <line>)
+>>
+
+removeTableIndex (table, index, line)::=<<
+<table>.remove(<index>, <line>)
+>>
+
+removeTableIndexInterval (table, index1, index2, line) ::= <<
+<table>.remove(<index1>, <index2>, <line>)
+>>
+
+removeWithCompareOperation(table, colName, op, obj, line) ::=<<
+<table>.remove(<colName>, <CompareOperations.(op)>, <obj>, <line>)
+>>
+
+widthTable (table )::=<<
+<table>.getWidth()
+>>
+
+heightTable (table )::=<<
+<table>.getHeight()
+>>
+
+
+saveTableNameFile (table, fileName, line)::=<<
+<table>.save(<fileName>, <line>)
+>>
+
+unionTables (table1, table2 , line)::=<<
+Table.union(<table1>, <table2>, <line>)
+>>
+
+intersectionTables (table1, table2, line )::=<<
+Table.intersection(<table1>,<table2>, <line>)
+>>
+
+differenceTables (table1, table2, line )::=<<
+Table.difference(<table1>, <table2>, <line>)
+>>
+
+joinTables (table1, table2 , line)::=<<
+Table.join(<table1>,<table2>, <line>)
+>>
+
+joinTablesWithCompare (table1, table2, colName1, op, colName2, line )::=<<
+Table.join(<table1>, <table2>, "<colName1>", <CompareOperations.(op)>, "<colName2>", <line>)
+>>
+
+getSubTable (table1, beginCol, endCol, beginLine, endLine, line)::=<<
+<table1>.getSubTable(<beginCol>, <endCol>, <beginLine>, <endLine>, <line>)
+>>
+
+tableElem (table, index1, index2, line) ::=<<
+<table>.getElement(<index1>, <index2>, <line>)
+>>
+
+tableSetElem (table, index1, index2, obj, line) ::=<<
+<table>.setElem(<index1>, <index2>, <obj>, <line>)
+>>
+
+tableGetColumnIndex(table, index, line) ::=<<
+<table>.getColumn(<index>, <line>)
+>>
+
+tableGetColumnName(table, name, line) ::=<<
+<table>.getColumn(<name>, <line>)
+>>
+
+tableGetLineIndex(table, index, line) ::= <<
+<table>.getLine(<index>, <line>)
+>>
+
+tableClearLine(table, lineClass, line) ::= <<
+<table>.clear(<lineClass>, <line>)
+>>
+
+//-------------LINE---------------
+
+newLine() ::= <<
+new Line()
+>>
+
+newLineCells(cells) ::= <<
+new Line(<cells>)
+>>
+
+newLineArray(obj) ::= <<
+new Line(<obj; separator=",">)
+>>
+
+increaseLineCell (line, cell )::=<<
+<line>.increase(<cell>)
+>>
+
+increaseLineCells (line, cells )::=<<
+<line>.increase(<cells>)
+>>
+
+decreaseLineCells (line, cells )::=<<
+<line>.decrease(<cells>)
+>>
+
+decreaseLineCell (line, cell )::=<<
+<line>.decrease(<cell>)
+>>
+
+clearLine (line )::=<<
+<line>.clear()
+>>
+
+clearLineHeader (header , line)::=<<
+<line>.clear(<header>)
+>>
+
+replaceLine (line, index, cell )::=<<
+<line>.replace(<index>, <cell>)
+>>
+
+widthLine (line )::=<<
+<line>.getWidth()
+>>
+
+heightLine (line )::=<<
+<line>.getHeight()
+>>
+
+getFunctionsLine(line) ::= <<
+<line>.getFunctions()
+>>
+
+getColumnTypesLine(line) ::= <<
+<line>.getColumnTypes()
+>>
+
+toStringLine (line )::=<<
+<line>.toString()
+>>
+
+addLine(line, header, object ) ::= <<
+<line>.add(<header>, <object>)
+>>
+
+//-----------Column-----------------
+
+newColumn(header, line) ::= <<
+new Column(<header>, <line>)
+>>
+
+renameColumn(column, name) ::=<<
+<column>.rename("<name>")
+>>

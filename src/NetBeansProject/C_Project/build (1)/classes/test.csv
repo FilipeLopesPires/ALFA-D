@@ -1,0 +1,6 @@
+String:nome , int:nMec, bool: smart
+"André Pedrosa",85966,false
+"Bruno Pedrosa", 85099,false
+"Pedro Cardozo", 85100,false
+"Filipe Oliveira", 85101,false
+"Pedro Carlos", 85102,  true

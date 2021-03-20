@@ -1,0 +1,7 @@
+/nbproject
+*.xml
+*.mf
+/build
+*.class
+.*
+!/.gitignore

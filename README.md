@@ -1,6 +1,11 @@
 # ALFA-D
 A Programming Language built with ANTLR4
 
+![](https://img.shields.io/badge/Academical%20Project-Yes-green)
+![](https://img.shields.io/badge/Made%20with-ANTLR4-blue)
+![](https://img.shields.io/badge/License-Free%20To%20Use-green)
+![](https://img.shields.io/badge/Maintained-No-red)
+
 ## Description
 
 ALFA-D aims at providing an easy way of dinamically manipulating information tables and of accessing/storing data from/to external .csv files.
